@@ -93,7 +93,9 @@ end
 
 
 # Run the program!
-if ARGV.empty?
+
+# Needs to take exactly one argument
+if ARGV.empty? || (ARGV.size > 1)
   puts "\n  This tool takes a list of URLs in a text file as its only argument.\n  Each URL in the text file should be on its own line."
   Formatador.display_line("[red]Usage: ruby title_case.rb /path/to/filename.txt[/]\n")
 
