@@ -3,24 +3,42 @@ require 'colorize'
 require 'open-uri'
 require 'formatador'
 
-urls = ["http://localdev.frank.is/sample.html", "http://localdev.frank.is/sample2.html", "http://uwhefiwuehfiweufh.com"]
+def url_array_from_file(f)
+
+  if File::exists?(f) && !File.zero?(f)
+    file = File.open(f, 'r')
+    data = file.read
+    file.close
+
+    return data.split("\n")
+
+  else
+    Formatador.display_line("[red]File does not exist or is empty.")
+    return false
+  end
+
+end
 
 def url_is_properly_title_cased(url)
   
   begin
     file = open(url)
     html = Nokogiri::HTML(file)
+
   rescue OpenURI::HTTPError => e
-    Formatador.display_line("[yellow]#{url} could not be reached.[/]")
+    Formatador.display_line("[yellow]#{url} could not be reached: #{e}[/]")
+    return false
+
   rescue SocketError
     Formatador.display_line("[yellow]#{url} could not be reached.[/]")
+    return false
   end  
 
   headers = html.css('h1, h2, h3, h4, h5, h6')
 
   headers.each do |header|
     if !header_is_properly_title_cased(header)
-      Formatador.display_line("[red]#{url} is BAD. Here's the deets.[/]")
+      Formatador.display_line("[red]#{url} has issues. Here's the deets.[/]")
       Formatador.display_table([{ :text => "[red]#{header.text}[/]", :tag_name => header.name }])
       Formatador.display_line("")
       return false
@@ -82,12 +100,20 @@ if ARGV.empty?
 
 else
   puts "\n"
-  urls.each do |url|
-    if url_is_properly_title_cased(url)
-      Formatador.display_line("[blue]#{url} is OK![/]\n")
+
+  urls = url_array_from_file(ARGV[0])
+
+  if (urls != false)
+    urls.each do |url|
+      if url_is_properly_title_cased(url)
+        Formatador.display_line("[blue]#{url} is OK![/]")
+      end
     end
   end
+
 end
+
+puts "\n"
 
 
 
