@@ -55,7 +55,7 @@ def header_is_properly_title_cased(header)
   words.each_with_index do |word, index|
 
     # If first or last
-    if index == 1 || index == words.size - 1
+    if (index == 0 || index == words.size - 1)
       return false if !word_is_properly_title_cased(word, true)
 
     # If not
@@ -71,21 +71,24 @@ end
 
 def word_is_properly_title_cased(word, is_either_first_or_last)
   always_lowercase = [
-    # Prepositions under 3 characters
     "as", "at", "by", "for", "in", "of", "off", "on", "per", "to", "up", "via",
-
-    # Conjunctions under 3 characters
-    "and", "but", "or", "as", "if", "so", "nor", "now"
+    "and", "but", "or", "as", "if", "so", "nor", "now",
+    "a", "an", "the"
   ]
 
-  # If it's either first or last, it should always be capitalized, so let's just get that out of the way
-  return false  if is_either_first_or_last && word != word.capitalize
-  
-  # If it's in the always-lowercase list
-  return false  if (always_lowercase.include? word.downcase) && word != word.downcase
+  puts "#{word}: #{is_either_first_or_last}"
 
-  # If it's not in the always-lowercase list
-  return false  if (!always_lowercase.include? word.downcase) && word == word.downcase
+  # If it's either first or last, it should always be capitalized, so let's just get that out of the way
+  return false  if (is_either_first_or_last) && (word != word.capitalize)
+  puts word
+  
+  # If it's in the always-lowercase list and is capitalized
+  return false  if (always_lowercase.include? word.downcase) && (word != word.downcase)
+  puts word
+
+  # If it's not in the always-lowercase list and isn't capitalized
+  return false  if (!always_lowercase.include? word.downcase) && (word == word.downcase)
+  puts word
 
   return true
 
