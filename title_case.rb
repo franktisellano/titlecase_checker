@@ -92,11 +92,11 @@ def word_is_properly_title_cased(word, is_either_first_or_last)
 end
 
 
-# Eventually do it
+# Run the program!
 
 if ARGV.empty?
   puts "\n  This tool takes a list of URLs in a text file as its only argument.\n  Each URL in the text file should be on its own line."
-  Formatador.display_line("[red]Usage: ruby title_case.rb \"/path/to/filename.txt\"[/]\n")
+  Formatador.display_line("[red]Usage: ruby title_case.rb /path/to/filename.txt[/]\n")
 
 else
   puts "\n"
