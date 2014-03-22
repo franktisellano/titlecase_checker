@@ -20,6 +20,10 @@ end
 
 
 def url_is_properly_title_cased(url)
+
+  properly_title_cased = true
+  table_data = []
+
   begin
     file = open(url)
     html = Nokogiri::HTML(file)
@@ -37,14 +41,19 @@ def url_is_properly_title_cased(url)
 
   headers.each do |header|
     if !header_is_properly_title_cased(header)
-      Formatador.display_line("[red]#{url} has issues. Here's the deets.[/]")
-      Formatador.display_table([{ :text => "[red]#{header.text}[/]", :tag_name => header.name }])
-      Formatador.display_line("")
-      return false
+      table_data.push({ :text => "[red]#{header.text}[/]", :tag_name => header.name })
+      properly_title_cased = false
     end
   end
 
-  return true
+
+  if properly_title_cased
+    return true
+  else
+    Formatador.display_line("[red]#{url} has issues. Here's the deets.[/]")
+    Formatador.display_table(table_data)
+    Formatador.display_line("")
+  end
 
 end
 
@@ -76,19 +85,14 @@ def word_is_properly_title_cased(word, is_either_first_or_last)
     "a", "an", "the"
   ]
 
-  puts "#{word}: #{is_either_first_or_last}"
-
   # If it's either first or last, it should always be capitalized, so let's just get that out of the way
   return false  if (is_either_first_or_last) && (word != word.capitalize)
-  puts word
   
   # If it's in the always-lowercase list and is capitalized
   return false  if (always_lowercase.include? word.downcase) && (word != word.downcase)
-  puts word
 
   # If it's not in the always-lowercase list and isn't capitalized
   return false  if (!always_lowercase.include? word.downcase) && (word == word.downcase)
-  puts word
 
   return true
 
