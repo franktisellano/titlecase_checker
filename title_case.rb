@@ -2,8 +2,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'formatador'
 
-def url_array_from_file(f)
 
+def url_array_from_file(f)
   if File::exists?(f) && !File.zero?(f)
     file = File.open(f, 'r')
     data = file.read
@@ -18,8 +18,8 @@ def url_array_from_file(f)
 
 end
 
+
 def url_is_properly_title_cased(url)
-  
   begin
     file = open(url)
     html = Nokogiri::HTML(file)
@@ -48,6 +48,7 @@ def url_is_properly_title_cased(url)
 
 end
 
+
 def header_is_properly_title_cased(header)
   words = header.text.split
 
@@ -67,8 +68,8 @@ def header_is_properly_title_cased(header)
 
 end
 
-def word_is_properly_title_cased(word, is_either_first_or_last)
 
+def word_is_properly_title_cased(word, is_either_first_or_last)
   always_lowercase = [
     # Prepositions under 3 characters
     "as", "at", "by", "for", "in", "of", "off", "on", "per", "to", "up", "via",
@@ -112,6 +113,3 @@ else
 end
 
 puts "\n"
-
-
-
