@@ -86,15 +86,14 @@ def word_is_properly_title_cased(word, is_either_first_or_last)
   ]
 
   # If it's either first or last, it should always be capitalized, so let's just get that out of the way
-  return false  if (is_either_first_or_last) && (word != word.capitalize)
+  return (word == word.capitalize) if is_either_first_or_last
   
   # If it's in the always-lowercase list and is capitalized
   return false  if (always_lowercase.include? word.downcase) && (word != word.downcase)
 
-  # If it's not in the always-lowercase list and isn't capitalized
-  return false  if (!always_lowercase.include? word.downcase) && (word == word.downcase)
+  return (word == word.downcase) if (always_lowercase.include? word.downcase)
 
-  return true
+  return word == word.capitalize
 
 end
 

@@ -1,2 +1,1 @@
-http://localdev.frank.is/sample.html
-http://localdev.frank.is/sample2.html
+http://rateadentist.com
